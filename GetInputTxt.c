@@ -50,13 +50,30 @@ void processKTestFilesInFolder(const char* folderPath, FILE* outputFile) {
 
     closedir(dir);
 }
-
-int main() {
+int main(int argc, char *argv[]) {
     const char* folderPath = "klee-last/";
+    char *inputFile;
 
-    FILE* outputFile = fopen("file.txt", "w");
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <argument (1 or 2)>\n", argv[0]);
+        return 1;
+    }
+
+    int argValue = atoi(argv[1]); // Convert argument to integer
+    if (argValue != 1 && argValue != 2) {
+        fprintf(stderr, "Invalid argument: %s\n", argv[1]);
+        return 1;
+    }
+
+    if (argValue == 1) {
+        inputFile = "input1.txt";
+    } else {
+        inputFile = "input2.txt";
+    }
+
+    FILE* outputFile = fopen(inputFile, "w");
     if (outputFile == NULL) {
-        perror("Không thể mở tệp đầu ra");
+        perror("Không th�~C m�~_ t�~Gp �~Qầu ra");
         return 1;
     }
 
@@ -64,8 +81,7 @@ int main() {
 
     fclose(outputFile);
 
-    printf("Thông tin đã được ghi vào file.txt\n");
+    printf("Thông tin �~Qã �~Qược ghi v�| o file.txt\n");
 
     return 0;
 }
-

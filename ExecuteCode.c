@@ -27,14 +27,22 @@ void executeFileWithInput(const char* filePath, const char* executablePath) {
     fclose(inputFile);
 }
 
-int main() {
-    // Đường dẫn đến tệp "input.txt"
-    const char* inputFilePath = "file.txt";
+int main(int argc, char *argv[]) {
 
     const char* executablePath = "./CodeTestExe";
+
+    // Determine input file path based on argument
+    const char* inputFilePath;
+    if (argc == 2 && strcmp(argv[1], "1") == 0) {
+        inputFilePath = "input1.txt";
+    } else if (argc == 2 && strcmp(argv[1], "2") == 0) {
+        inputFilePath = "input2.txt";
+    } else {
+        fprintf(stderr, "Usage: %s <argument (1 or 2)>\n", argv[0]);
+        return 1;
+    }
 
     executeFileWithInput(inputFilePath, executablePath);
 
     return 0;
 }
-
