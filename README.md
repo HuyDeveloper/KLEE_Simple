@@ -6,7 +6,32 @@ CodeTest nhận input file giống trên kia để tạo output (status: penddin
 
 CompareCode truyền 1 hoặc 2 để so sánh output 11 12 hoặc 21 22(ok)
 
+Bước 1: Phân tích các thông tin của function
+> ```clang -o analyze_function analyze-function.c -lclang -I/usr/lib/llvm-14/include```
 
+và chạy file exe analyze-function
+
+> ```./analyze_function path-to-file-source name-of-the-function```
+
+Một file chứa các thông tin của hàm sẽ được tạo ra theo tên hàm.
+
+Bước 2: Tạo file source template theo KLEE
+> ```clang call-function.c -o call-function```
+
+Và chạy file exe
+> ```./call-function  file-contains-information path-to-the-file-source```
+
+Một file generated_code.c sẽ được tạo ra.
+
+Bước 3: Tạo file source không có KLEE
+> ```clang call-function-main.c -o call-function```
+
+Và chạy file exe
+> ```./call-function-main  file-contains-information path-to-the-file-source```
+
+Một file generated_code_main.c sẽ được tạo ra.
+
+Bước 2:
 Compile  CreateTest.c(caller func1) sang bc.
 > ```clang -emit-llvm -c  CreateTest.c```
 
