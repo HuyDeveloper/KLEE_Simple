@@ -8,7 +8,7 @@ CompareCode truyền 1 hoặc 2 để so sánh output 11 12 hoặc 21 22(ok)
 
 
 Compile  CreateTest.c(caller func1) sang bc.
-> ```clang -emit-llvm -c  CreateTest.c```
+> ```clang -emit-llvm -c  CreateTest.c```.
 ```klee CreateTest.bc```
 Compile GetInputTxt.c sang exe
 ```clang GetInputTxt.c -o GetInputExe```
