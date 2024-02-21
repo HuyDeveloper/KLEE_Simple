@@ -11,15 +11,18 @@ Compile  CreateTest.c(caller func1) sang bc.
 > ```clang -emit-llvm -c  CreateTest.c```
 
 > ```klee CreateTest.bc```
-> 
+ 
 Compile GetInputTxt.c sang exe.
 > ```clang GetInputTxt.c -o GetInputExe```
 
 > ```./GetInputExe %d%(Với d là 1 hoặc 2)```
-Compile CodeTest.c(caller function 2) sang exe
-```clang  CodeTest.c -o CodeTestExe```
-Compile ExecuteCode.c sang exe
-```clang ExecuteCode.c -o ExecuteExe```
-```./ExecuteExe %d% #(d là 1 hoặc 2 để chọn file input)```
-Compile CompareCode.c sang exe
-```clang CompareCode.c -o CompareExe```
+
+Compile CodeTest.c(caller function 2) sang exe.
+> ```clang  CodeTest.c -o CodeTestExe```
+
+Compile ExecuteCode.c sang exe.
+> ```clang ExecuteCode.c -o ExecuteExe```
+
+> ```./ExecuteExe %d% #(d là 1 hoặc 2 để chọn file input)```
+Compile CompareCode.c sang exe.
+> ```clang CompareCode.c -o CompareExe```
