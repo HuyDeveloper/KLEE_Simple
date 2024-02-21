@@ -24,5 +24,6 @@ Compile ExecuteCode.c sang exe.
 > ```clang ExecuteCode.c -o ExecuteExe```
 
 > ```./ExecuteExe %d% #(d là 1 hoặc 2 để chọn file input)```
+
 Compile CompareCode.c sang exe.
 > ```clang CompareCode.c -o CompareExe```
