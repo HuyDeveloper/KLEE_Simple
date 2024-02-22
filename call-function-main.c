@@ -72,9 +72,10 @@ int main(int argc, char *argv[]) {
     }
 
     fprintf(outputFile, "#include<stdio.h>\n");
-    fprintf(outputFile, "#include<%s>\n", fileImport);
-    fprintf(outputFile, "#DEFINE SIZE 100\n\n");
+    fprintf(outputFile, "#include\"%s\"\n", fileImport);
+    fprintf(outputFile, "#include<stdlib.h>\n");
     fprintf(outputFile, "int main() {\n");
+    fprintf(outputFile, "    int e = 1;\n");
 
     char functionName[256];
     char cursorInfo[256];
@@ -104,13 +105,34 @@ int main(int argc, char *argv[]) {
         char type[10];   // Để lưu trữ kiểu dữ liệu
     	char brackets[10]; // Để lưu trữ chuỗi chứa các dấu ngoặc vuông
         if (sscanf(argumentType[i - 1], "%9[^[]%[^\n]%*c", type, brackets) == 2) {
-
 		fprintf(outputFile, "    %s %s%s;\n", type, argumentName[i - 1], chenChuoi(brackets, "100"));
+		if (strstr(argumentType[i-1], "char") == NULL) {
+			fprintf(outputFile, "    for(int i = 0; i < 100;i++){\n");
+			fprintf(outputFile, "        %s[i] = (%s) atof(argv[e]);\n",argumentName[i - 1], argumentType[i-1]);
+			fprintf(outputFile, "    }\n");
+		} else {
+			fprintf(outputFile, "    %s = argv[e];\n",argumentName[i - 1]);
+		}
+		fprintf(outputFile, "    e++;\n");
     	} else if(findPointer(argumentType[i - 1]) == 1) {
 		fprintf(outputFile, "    %s %s;\n", argumentType[i-1], argumentName[i - 1]);
-		fprintf(outputFile, "    %s = (%s) malloc(SIZE);\n", argumentName[i-1], argumentType[i - 1]);
+		fprintf(outputFile, "    %s = (%s) malloc(100 * sizeof(%s));\n", argumentName[i-1],argumentType[i-1] , strtok(argumentType[i-1], " "));
+		if (strstr(argumentType[i-1], "char") == NULL) {
+                        fprintf(outputFile, "    for(int i = 0; i < 100;i++){\n");
+                        fprintf(outputFile, "        %s[i] = (%s) atof(argv[e]);\n",argumentName[i - 1], argumentType[i-1]);
+                        fprintf(outputFile, "    }\n");
+		} else {
+                        fprintf(outputFile, "    %s = argv[e];\n",argumentName[i - 1]);
+                }
+                fprintf(outputFile, "    e++;\n");
 	} else {
-        	fprintf(outputFile, "    %s %s;\n", argumentType[i-1], argumentName[i - 1]);
+		fprintf(outputFile, "    %s %s;\n", argumentType[i-1], argumentName[i - 1]);
+		if (strstr(argumentType[i-1], "char") == NULL) {
+			 fprintf(outputFile, "    %s = (%s) atof(argv[e]);\n",argumentName[i - 1], argumentType[i-1]);
+		} else {
+        		fprintf(outputFile, "    %s = argv[e];\n",argumentName[i - 1]);
+		}
+		fprintf(outputFile, "    e++;\n");
     	}
 
     }
@@ -129,6 +151,21 @@ int main(int argc, char *argv[]) {
     }
 
     fprintf(outputFile, "%s);\n", argumentName[numArguments - 1]);
+
+    fprintf(outputFile,"    FILE *output_file = fopen(\"output.txt\", \"a\");\n");
+
+    // Error handling: Check if file opened successfully
+    fprintf(outputFile,"    if (!output_file) {\n");
+    fprintf(outputFile,"        printf(\"Error opening output file\");\n");
+    fprintf(outputFile,"    return 1;\n");
+    fprintf(outputFile,"}\n\n\n");
+
+    // Write the result to the file, including proper formatting
+    fprintf(outputFile,"    fprintf(output_file, \"\%\d\", result);\n");
+
+    // Close the file
+    fprintf(outputFile,"    fclose(output_file);\n");
+
     fprintf(outputFile, "    return 0;\n");
     fprintf(outputFile, "}");
 
