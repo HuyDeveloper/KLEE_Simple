@@ -152,20 +152,6 @@ int main(int argc, char *argv[]) {
 
     fprintf(outputFile, "%s);\n", argumentName[numArguments - 1]);
 
-    fprintf(outputFile,"    FILE *output_file = fopen(\"output.txt\", \"a\");\n");
-
-    // Error handling: Check if file opened successfully
-    fprintf(outputFile,"    if (!output_file) {\n");
-    fprintf(outputFile,"        printf(\"Error opening output file\");\n");
-    fprintf(outputFile,"    return 1;\n");
-    fprintf(outputFile,"}\n\n\n");
-
-    // Write the result to the file, including proper formatting
-    fprintf(outputFile,"    fprintf(output_file, \"\%\d\", result);\n");
-
-    // Close the file
-    fprintf(outputFile,"    fclose(output_file);\n");
-
     fprintf(outputFile, "    return 0;\n");
     fprintf(outputFile, "}");
 
