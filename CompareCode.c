@@ -58,9 +58,10 @@ int main(int argc, char *argv[]) {
   // So sánh 2 mảng và in ra số cặp trùng nhau
   int count = compareArray(arr1, size1, arr2, size2);
   if (count == -1) {
-    printf("Độ dài mảng không bằng nhau!\n");
+    printf("Error!\n");
   } else {
-    printf("Số cặp trùng nhau: %d\n", count);
+    printf("So cap trung nhau: %d\n", count);
+    printf("So cap trung/Tong so cap: %d / %d \n", count, size1 -1);
   }
 
   return 0;
