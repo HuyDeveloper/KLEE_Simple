@@ -72,9 +72,9 @@ int main(int argc, char *argv[]) {
     }
 
     fprintf(outputFile, "#include<stdio.h>\n");
-    fprintf(outputFile, "#include<%s>\n", fileImport);
+    fprintf(outputFile, "#include<stdlib.h>\n");
+    fprintf(outputFile, "#include\"%s\"\n", fileImport);
     fprintf(outputFile, "#include<klee/klee.h>\n\n\n");
-    fprintf(outputFile, "#DEFINE SIZE 100\n\n");
     fprintf(outputFile, "int main() {\n");
 
     char functionName[256];
@@ -105,16 +105,16 @@ int main(int argc, char *argv[]) {
         char type[10];   // Để lưu trữ kiểu dữ liệu
     	char brackets[10]; // Để lưu trữ chuỗi chứa các dấu ngoặc vuông
         if (sscanf(argumentType[i - 1], "%9[^[]%[^\n]%*c", type, brackets) == 2) {
-
 		fprintf(outputFile, "    %s %s%s;\n", type, argumentName[i - 1], chenChuoi(brackets, "100"));
+		fprintf(outputFile, "    klee_make_symbolic(&%s, sizeof(%s), \"%s\");\n", argumentName[i - 1], argumentName[i - 1], argumentName[i - 1]);
     	} else if(findPointer(argumentType[i - 1]) == 1) {
 		fprintf(outputFile, "    %s %s;\n", argumentType[i-1], argumentName[i - 1]);
-		fprintf(outputFile, "    %s = (%s) malloc(SIZE);\n", argumentName[i-1], argumentType[i - 1]);
+		fprintf(outputFile, "    %s = (%s) malloc(100 * sizeof(%s));\n", argumentName[i-1],argumentType[i-1] , strtok(argumentType[i-1], " "));
+		fprintf(outputFile, "    klee_make_symbolic(&%s, sizeof(%s) * 100, \"%s\");\n", argumentName[i - 1], strtok(argumentType[i-1], " "), argumentName[i - 1]);
 	} else {
         	fprintf(outputFile, "    %s %s;\n", argumentType[i-1], argumentName[i - 1]);
+		fprintf(outputFile, "    klee_make_symbolic(&%s, sizeof(%s), \"%s\");\n", argumentName[i - 1], argumentName[i - 1], argumentName[i - 1]);
     	}
-
-	fprintf(outputFile, "    klee_make_symbolic(&%s, sizeof(%s), \"%s\");\n", argumentName[i - 1], argumentName[i - 1], argumentName[i - 1]);
     }
 
     char *voidPosition = strstr(returnType, "void");

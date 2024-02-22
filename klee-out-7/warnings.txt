@@ -1,0 +1,8 @@
+KLEE: WARNING: undefined reference to function: fclose
+KLEE: WARNING: undefined reference to function: fopen
+KLEE: WARNING: undefined reference to function: fprintf
+KLEE: WARNING: undefined reference to function: printf
+KLEE: WARNING ONCE: calling external: printf(140338304487424, (ReadLSB w32 0 x)) at ././sample-code/get_sign.c:3 7
+KLEE: WARNING ONCE: calling external: fopen(140340451971072, 140338572922880) at generated_code.c:12 11
+KLEE: WARNING ONCE: calling external: fprintf(93872423294112, 140338304487424, (ReadLSB w32 0 x)) at generated_code.c:24 12
+KLEE: WARNING ONCE: calling external: fclose(93872423294112) at generated_code.c:25 5
