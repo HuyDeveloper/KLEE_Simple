@@ -7,6 +7,9 @@ int get_sign(int x) {
   else
     return 1;
 }
+
+
+
 int main() {
   int a;
   klee_make_symbolic(&a, sizeof(a), "a");
