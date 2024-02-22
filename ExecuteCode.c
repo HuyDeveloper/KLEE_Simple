@@ -15,7 +15,7 @@ void executeFileWithInput(const char* filePath, const char* executablePath) {
     while (fgets(line, sizeof(line), inputFile) != NULL) {
         // Loại bỏ ký tự mới dòng '\n' nếu có
         line[strcspn(line, "\n")] = '\0';
-
+	printf("%s", line);
         // Xây dựng lệnh với dữ liệu từ input.txt
         snprintf(command, sizeof(command), "%s %s", executablePath, line);
         printf("%s\n", command);
