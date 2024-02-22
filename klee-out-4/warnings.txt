@@ -1,0 +1,2 @@
+KLEE: WARNING: undefined reference to function: printf
+KLEE: WARNING ONCE: calling external: printf(140338934960128, (ReadLSB w64 0 x)) at generated_code.c:11 9

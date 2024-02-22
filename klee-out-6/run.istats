@@ -1,0 +1,62 @@
+version: 1
+creator: klee
+pid: 698
+cmd: generated_code.bc
+
+
+positions: instr line
+event: Icov : CoveredInstructions
+event: Forks : Forks
+event: Ireal : InstructionRealTimes
+event: Itime : InstructionTimes
+event: I : Instructions
+event: UCdist : MinDistToUncovered
+event: Rtime : ResolveTime
+event: States : States
+event: Iuncov : UncoveredInstructions
+event: Q : Queries
+event: Qiv : QueriesInvalid
+event: Qv : QueriesValid
+event: Qtime : QueryTime
+events: Icov Forks Ireal Itime I UCdist Rtime States Iuncov Q Qiv Qv Qtime 
+ob=assembly.ll
+fl=././sample-code/get_sign.c
+fn=get_sign
+11 1 1 0 0 0 1 0 0 0 0 0 0 0 0 
+12 1 1 0 0 0 1 0 0 0 0 0 0 0 0 
+13 1 1 0 0 0 1 0 0 0 0 1 0 0 0 
+14 1 1 0 0 0 1 0 0 0 0 0 0 0 0 
+15 2 1 0 0 0 1 0 0 0 0 1 0 0 0 
+16 2 1 0 0 0 1 0 0 0 0 2 1 0 2661 
+17 3 1 0 0 0 1 0 0 0 0 1 0 0 0 
+18 3 1 0 0 0 1 0 0 0 0 0 0 0 0 
+19 3 1 1 0 0 1 0 0 0 0 1 1 0 4488 
+22 4 1 0 0 0 1 0 0 0 0 1 0 0 0 
+23 4 1 0 0 0 1 0 0 0 0 0 0 0 0 
+26 6 1 0 0 0 1 0 0 0 0 1 0 0 0 
+27 6 1 0 0 0 1 0 0 0 0 0 0 0 0 
+28 6 1 1 0 0 1 0 0 0 0 1 1 0 29037 
+31 7 1 0 0 0 1 0 0 0 0 1 0 0 0 
+32 7 1 0 0 0 1 0 0 0 0 0 0 0 0 
+35 9 1 0 0 0 1 0 0 0 0 1 0 0 0 
+36 9 1 0 0 0 1 0 0 0 0 0 0 0 0 
+39 10 1 0 0 0 3 0 0 0 0 3 0 0 0 
+40 10 1 0 0 0 3 0 0 0 0 0 0 0 0 
+fl=generated_code.c
+fn=main
+50 7 1 0 0 0 1 0 0 0 0 0 0 0 0 
+51 7 1 0 0 0 1 0 0 0 0 0 0 0 0 
+52 7 1 0 0 0 1 0 0 0 0 0 0 0 0 
+53 7 1 0 0 0 1 0 0 0 0 1 0 0 0 
+54 8 1 0 0 0 1 0 0 0 0 0 0 0 0 
+55 9 1 0 0 0 1 0 0 0 0 0 0 0 0 
+56 9 1 0 0 0 1 0 0 0 0 2 0 0 0 
+57 10 1 0 0 0 1 0 0 0 0 0 0 0 0 
+58 11 1 0 0 0 1 0 0 0 0 1 0 0 0 
+59 11 1 0 0 0 1 0 0 0 0 0 0 0 0 
+cfl=././sample-code/get_sign.c
+cfn=get_sign
+calls=1 9 1
+59 11 20 2 0 0 24 0 0 0 0 14 3 0 36186 
+60 11 1 0 0 0 3 0 0 0 0 3 0 0 0 
+61 12 1 0 0 0 3 0 0 0 0 3 0 0 0 

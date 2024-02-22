@@ -1,0 +1,6 @@
+Function Name: get_sign
+Cursor Info: get_sign(long)
+Return Type: int
+Number of Arguments: 1
+Argument 1 Name=x Type: long
+
