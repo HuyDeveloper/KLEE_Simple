@@ -1,8 +1,0 @@
-Error: external call with symbolic argument: fprintf
-File: ././sample-code/get_sign.c
-Line: 3
-assembly.ll line: 39
-State: 1
-Stack: 
-	#000000039 in get_sign(symbolic) at ././sample-code/get_sign.c:3
-	#100000323 in main() at generated_code.c:61

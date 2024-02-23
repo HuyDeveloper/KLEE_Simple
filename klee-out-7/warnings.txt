@@ -1,9 +1,0 @@
-KLEE: WARNING: undefined reference to function: fclose
-KLEE: WARNING: undefined reference to function: fopen
-KLEE: WARNING: undefined reference to function: fprintf
-KLEE: WARNING: undefined reference to function: printf
-KLEE: WARNING: undefined reference to function: strstr
-KLEE: WARNING ONCE: calling external: fopen(139840956895232, 139838004105216) at generated_code.c:60 11
-KLEE: WARNING ONCE: calling external: fprintf(94216968270048, 139837869887488, (ReadLSB w32 0 x)) at generated_code.c:64 14
-KLEE: WARNING ONCE: calling external: strstr(139838138322944, 139838876520448) at generated_code.c:15 34
-KLEE: WARNING ONCE: calling external: fclose(94216968270528) at generated_code.c:27 1

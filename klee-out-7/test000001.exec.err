@@ -1,7 +1,0 @@
-Error: external call with symbolic argument: fprintf
-File: generated_code.c
-Line: 63
-assembly.ll line: 324
-State: 3
-Stack: 
-	#000000324 in main() at generated_code.c:63
