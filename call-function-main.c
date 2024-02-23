@@ -108,18 +108,20 @@ int main(int argc, char *argv[]) {
 		fprintf(outputFile, "    %s %s%s;\n", type, argumentName[i - 1], chenChuoi(brackets, "100"));
 		if (strstr(argumentType[i-1], "char") == NULL) {
 			fprintf(outputFile, "    for(int i = 0; i < 100;i++){\n");
-			fprintf(outputFile, "        %s[i] = (%s) atof(argv[e]);\n",argumentName[i - 1], argumentType[i-1]);
+			fprintf(outputFile, "        %s[i] = (%s) atof(argv[e]);\n",argumentName[i - 1], type);
+			fprintf(outputFile, "        e++;\n");
 			fprintf(outputFile, "    }\n");
 		} else {
 			fprintf(outputFile, "    %s = argv[e];\n",argumentName[i - 1]);
+			fprintf(outputFile, "    e++;\n");
 		}
-		fprintf(outputFile, "    e++;\n");
     	} else if(findPointer(argumentType[i - 1]) == 1) {
 		fprintf(outputFile, "    %s %s;\n", argumentType[i-1], argumentName[i - 1]);
 		fprintf(outputFile, "    %s = (%s) malloc(100 * sizeof(%s));\n", argumentName[i-1],argumentType[i-1] , strtok(argumentType[i-1], " "));
 		if (strstr(argumentType[i-1], "char") == NULL) {
                         fprintf(outputFile, "    for(int i = 0; i < 100;i++){\n");
                         fprintf(outputFile, "        %s[i] = (%s) atof(argv[e]);\n",argumentName[i - 1], argumentType[i-1]);
+			fprintf(outputFile, "        e++;\n");
                         fprintf(outputFile, "    }\n");
 		} else {
                         fprintf(outputFile, "    %s = argv[e];\n",argumentName[i - 1]);

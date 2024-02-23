@@ -1,30 +1,52 @@
-void writeInputtoFile(void* array, size_t size, size_t elemSize, const char* dataType) {
-    FILE* output_file = fopen("output.txt", "a");
+void saveFile(void* data, char dataType[], char filename[]) {
+    FILE* output_file = fopen(filename, "a");
 
     // Error handling: Check if file opened successfully
     if (!output_file) {
         printf("Error opening output file\n");
         return;
     }
+    if (strstr(dataType, "char") != NULL) {
+        fprintf(output_file, "%s\n", (char*)data);
+    } else if ((strstr(dataType, "float") != NULL) ||  (strstr(dataType, "double") != NULL)) {
+        fprintf(output_file, "%f\n", *(double*)data);
+    } else if(strstr(dataType, "long") != NULL) {
+        fprintf(output_file, "%lld\n", *(long long*)data);
+    } else {
+        fprintf(output_file, "%d\n", *(int*)data);
+    }
 
-    char* base = (char*)array;
+    // Close the file
+    fclose(output_file);
+}
 
-    for (size_t i = 0; i < size; i++) {
-        if (strcmp(dataType, "int") == 0) {
-            int current = *(int*)(base + i * elemSize);
-            printf("%d", current);
-            fprintf(output_file, "%d ", current);
-        } else if (strcmp(dataType, "float") == 0) {
-            float current = *(float*)(base + i * elemSize);
-            printf("%f", current);
-            fprintf(output_file, "%f ", current);
-        } else {
-            // Handle unsupported data types or display an error
-            printf("Unsupported data type\n");
-            break;
+void saveArrayFile(void* data, char dataType[], char filename[]) {
+    FILE* output_file = fopen(filename, "a");
+
+    // Error handling: Check if file opened successfully
+    if (!output_file) {
+        printf("Error opening output file\n");
+        return;
+    }
+    if (strstr(dataType, "char") != NULL) {
+        fprintf(output_file, "%s\n", (char*)data);
+    } else if ((strstr(dataType, "float") != NULL) ||  (strstr(dataType, "double") != NULL)) {
+        double *dat = (double*) data;
+        for(int i = 0; i < 100; i++) {
+            fprintf(output_file, "%f\n", dat[i]);
+        }
+    } else if(strstr(dataType, "long") != NULL) {
+        long long *dat = (long long*) data;
+        for(int i = 0; i < 5; i++) {
+            fprintf(output_file, "%lld\n", dat[i]);
+        }
+    } else {
+        int *dat = (int*) data;
+        for(int i = 0; i < 5; i++) {
+            fprintf(output_file, "%d\n", dat[i]);
         }
     }
 
-    fprintf(output_file, "\n");
+    // Close the file
     fclose(output_file);
 }

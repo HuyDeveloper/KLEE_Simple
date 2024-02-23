@@ -1,0 +1,8 @@
+Error: external call with symbolic argument: fprintf
+File: ././WriteArrayTtoFile.c
+Line: 16
+assembly.ll line: 136
+State: 1
+Stack: 
+	#000000136 in saveFile(139244623486976, 140472313044992, 140475400052736) at ././WriteArrayTtoFile.c:16
+	#100000318 in main() at generated_code.c:11

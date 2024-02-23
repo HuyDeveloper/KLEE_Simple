@@ -74,7 +74,9 @@ int main(int argc, char *argv[]) {
     fprintf(outputFile, "#include<stdio.h>\n");
     fprintf(outputFile, "#include<stdlib.h>\n");
     fprintf(outputFile, "#include\"%s\"\n", fileImport);
+    fprintf(outputFile, "#include\"./SaveInput.cpp\"\n");
     fprintf(outputFile, "#include<klee/klee.h>\n\n\n");
+
     fprintf(outputFile, "int main() {\n");
 
     char functionName[256];
@@ -83,6 +85,7 @@ int main(int argc, char *argv[]) {
     char argumentInfo[256];
     char argumentName[256][256];
     char argumentType[256][256];
+    char argumentKlee[1024][1024];
 
     // Đọc thông tin từ tệp vào các biến
     fscanf(inputFile, "Function Name: %255[^\n]\n", functionName);
@@ -107,13 +110,16 @@ int main(int argc, char *argv[]) {
         if (sscanf(argumentType[i - 1], "%9[^[]%[^\n]%*c", type, brackets) == 2) {
 		fprintf(outputFile, "    %s %s%s;\n", type, argumentName[i - 1], chenChuoi(brackets, "100"));
 		fprintf(outputFile, "    klee_make_symbolic(&%s, sizeof(%s), \"%s\");\n", argumentName[i - 1], argumentName[i - 1], argumentName[i - 1]);
+		sprintf(argumentKlee[i-1], "    saveArrayFile(%s, \"%s.input.txt\");\n", argumentName[i - 1], functionName);
     	} else if(findPointer(argumentType[i - 1]) == 1) {
 		fprintf(outputFile, "    %s %s;\n", argumentType[i-1], argumentName[i - 1]);
 		fprintf(outputFile, "    %s = (%s) malloc(100 * sizeof(%s));\n", argumentName[i-1],argumentType[i-1] , strtok(argumentType[i-1], " "));
 		fprintf(outputFile, "    klee_make_symbolic(&%s, sizeof(%s) * 100, \"%s\");\n", argumentName[i - 1], strtok(argumentType[i-1], " "), argumentName[i - 1]);
+		sprintf(argumentKlee[i-1], "    saveArrayFile(%s, \"%s.input.txt\");\n", argumentName[i - 1], functionName);
 	} else {
         	fprintf(outputFile, "    %s %s;\n", argumentType[i-1], argumentName[i - 1]);
 		fprintf(outputFile, "    klee_make_symbolic(&%s, sizeof(%s), \"%s\");\n", argumentName[i - 1], argumentName[i - 1], argumentName[i - 1]);
+		sprintf(argumentKlee[i-1], "    saveFile(%s, \"%s.input.txt\");\n", argumentName[i - 1], functionName);
     	}
     }
 
@@ -131,6 +137,16 @@ int main(int argc, char *argv[]) {
     }
 
     fprintf(outputFile, "%s);\n", argumentName[numArguments - 1]);
+
+    if (findPointer(returnType) == 1){
+        fprintf(outputFile, "    saveArrayFile(result, \"%s.output.txt\");\n", functionName);
+    } else {
+        fprintf(outputFile, "    saveFile(result, \"%s.output.txt\");\n", functionName);
+    }
+
+    for (int i = 1; i <= numArguments; i++) {
+        fprintf(outputFile,"%s" ,argumentKlee[i-1]);
+    }
     fprintf(outputFile, "    return 0;\n");
     fprintf(outputFile, "}");
 

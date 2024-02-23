@@ -1,0 +1,7 @@
+KLEE: WARNING: undefined reference to function: fclose
+KLEE: WARNING: undefined reference to function: fopen
+KLEE: WARNING: undefined reference to function: fprintf
+KLEE: WARNING: undefined reference to function: printf
+KLEE: WARNING: undefined reference to function: strstr
+KLEE: WARNING ONCE: calling external: fopen(139811832692736, 139808879902720) at ././WriteArrayTtoFile.c:2 11
+KLEE: WARNING ONCE: calling external: strstr(139808745684992, 139809752317952) at ././WriteArrayTtoFile.c:9 34

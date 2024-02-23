@@ -1,0 +1,12 @@
+Error: memory error: null page access
+File: generated_code.c
+Line: 22
+assembly.ll line: 134
+State: 3
+Stack: 
+	#000000134 in saveFile(1, 140609435779072, 140612522786816) at generated_code.c:22
+	#100000319 in main() at generated_code.c:62
+Info: 
+	address: 1
+	next: object at 139381746221056 of size 4
+		MO32[4] allocated at main():  %2 = alloca i32, align 4

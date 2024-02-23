@@ -1,0 +1,8 @@
+Function Name: binary_search
+Cursor Info: binary_search(int *, int, int)
+Return Type: int
+Number of Arguments: 3
+Argument 1 Name=arr Type: int[]
+Argument 2 Name=size Type: int
+Argument 3 Name=target Type: int
+
