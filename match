@@ -1,7 +1,0 @@
-Function Name: match
-Cursor Info: match(char *, char *)
-Return Type: int
-Number of Arguments: 2
-Argument 1 Name=re Type: char *
-Argument 2 Name=text Type: char *
-

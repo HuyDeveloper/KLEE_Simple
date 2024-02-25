@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    char fileName[] = "generated_code.c";
+    char fileName[] = "generated_code_main.c";
 
     FILE *outputFile = fopen(fileName, "w");
 
@@ -71,11 +71,12 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    fprintf(outputFile, "#include<stdio.h>\n");
-    fprintf(outputFile, "#include\"%s\"\n", fileImport);
-    fprintf(outputFile, "#include<stdlib.h>\n");
-    fprintf(outputFile, "int main() {\n");
-    fprintf(outputFile, "    int e = 1;\n");
+    fprintf(outputFile, "#include <stdio.h>\n");
+    fprintf(outputFile, "#include \"%s\"\n", fileImport);
+    fprintf(outputFile, "#include \"./SaveInput.cpp\"\n");
+    fprintf(outputFile, "#include <stdlib.h>\n");
+    fprintf(outputFile, "int main(int argc, char *argv[]) {\n");
+    fprintf(outputFile, "    int e = 2;\n");
 
     char functionName[256];
     char cursorInfo[256];
@@ -153,6 +154,12 @@ int main(int argc, char *argv[]) {
     }
 
     fprintf(outputFile, "%s);\n", argumentName[numArguments - 1]);
+    
+    if (findPointer(returnType) == 1){
+        fprintf(outputFile, "    saveArrayFile(result, argv[1]);\n", functionName);
+    } else {
+        fprintf(outputFile, "    saveFile(result, argv[1]);\n", functionName);
+    }
 
     fprintf(outputFile, "    return 0;\n");
     fprintf(outputFile, "}");

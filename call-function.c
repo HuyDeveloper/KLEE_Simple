@@ -138,12 +138,6 @@ int main(int argc, char *argv[]) {
 
     fprintf(outputFile, "%s);\n", argumentName[numArguments - 1]);
 
-    if (findPointer(returnType) == 1){
-        fprintf(outputFile, "    saveArrayFile(result, \"%s.output.txt\");\n", functionName);
-    } else {
-        fprintf(outputFile, "    saveFile(result, \"%s.output.txt\");\n", functionName);
-    }
-
     for (int i = 1; i <= numArguments; i++) {
         fprintf(outputFile,"%s" ,argumentKlee[i-1]);
     }
