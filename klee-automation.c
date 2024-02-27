@@ -72,6 +72,11 @@ int main(int argc, char* argv[]) {
     strcat(executeExeClone2, " ");
     strcat(executeExeClone2, argv[3]);
 
+    char executeCompare1[100] = "./CompareExe ";
+    char executeCompare2[100] = "./CompareExe ";
+    strcat(executeCompare1, argv[1]);
+    strcat(executeCompare2, argv[3]);
+
     const char* commands[] = {
         "clang -o analyze_function analyze-function.c -lclang -I/usr/lib/llvm-14/include",
         
@@ -101,7 +106,12 @@ int main(int argc, char* argv[]) {
 	callFunctionMain2,
         "clang++ generated_code_main.c -o CodeTestExe",
         executeExe2,
-        executeExeClone2
+        executeExeClone2,
+
+	"clang CompareCode.c -o CompareExe",
+	executeCompare1,
+	executeCompare2
+
     };
 
     for (int i = 0; i < sizeof(commands) / sizeof(commands[0]); ++i) {
