@@ -50,6 +50,18 @@ int findPointer(char mainString[]) {
     return 0;
 }
 
+int findReference(char mainString[]) {
+    char pointer[] = "&";
+
+    char *finding = strstr(mainString, pointer);
+
+    if(finding != NULL) {
+        return 1;
+    }
+
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
     
     char *fileInput = argv[1];
@@ -83,6 +95,7 @@ int main(int argc, char *argv[]) {
     char cursorInfo[256];
     char returnType[256];
     char argumentInfo[256];
+    int flag[256];
     char argumentName[256][256];
     char argumentType[256][256];
     char argumentKlee[1024][1024];
@@ -105,21 +118,28 @@ int main(int argc, char *argv[]) {
     for (int i = 1; i <= numArguments; i++) {
         // Đọc tên và kiểu của đối số
         fscanf(inputFile, "Argument %d Name=%255s Type: %255[^\n]\n", &i, argumentName[i - 1], argumentType[i - 1]);
+
+	int flag = findReference(argumentType[i-1]);
+
+        if(flag) {
+                sprintf(argumentType[i-1], "%s", strtok(argumentType[i-1], " "));
+        }
+
         char type[10];   // Để lưu trữ kiểu dữ liệu
     	char brackets[10]; // Để lưu trữ chuỗi chứa các dấu ngoặc vuông
         if (sscanf(argumentType[i - 1], "%9[^[]%[^\n]%*c", type, brackets) == 2) {
 		fprintf(outputFile, "    %s %s%s;\n", type, argumentName[i - 1], chenChuoi(brackets, "100"));
 		fprintf(outputFile, "    klee_make_symbolic(&%s, sizeof(%s), \"%s\");\n", argumentName[i - 1], argumentName[i - 1], argumentName[i - 1]);
-		sprintf(argumentKlee[i-1], "    saveArrayFile(%s, \"%s.input.txt\");\n", argumentName[i - 1], functionName);
+		sprintf(argumentKlee[i-1], "    saveArrayFile(%s, \"%s-input/%s.%s.input.txt\");\n", argumentName[i - 1], functionName, argumentName[i - 1], functionName);
     	} else if(findPointer(argumentType[i - 1]) == 1) {
 		fprintf(outputFile, "    %s %s;\n", argumentType[i-1], argumentName[i - 1]);
 		fprintf(outputFile, "    %s = (%s) malloc(100 * sizeof(%s));\n", argumentName[i-1],argumentType[i-1] , strtok(argumentType[i-1], " "));
 		fprintf(outputFile, "    klee_make_symbolic(&%s, sizeof(%s) * 100, \"%s\");\n", argumentName[i - 1], strtok(argumentType[i-1], " "), argumentName[i - 1]);
-		sprintf(argumentKlee[i-1], "    saveArrayFile(%s, \"%s.input.txt\");\n", argumentName[i - 1], functionName);
+		sprintf(argumentKlee[i-1], "    saveArrayFile(%s, \"%s-input/%s.%s.input.txt\");\n", argumentName[i - 1], functionName, argumentName[i - 1], functionName);
 	} else {
         	fprintf(outputFile, "    %s %s;\n", argumentType[i-1], argumentName[i - 1]);
 		fprintf(outputFile, "    klee_make_symbolic(&%s, sizeof(%s), \"%s\");\n", argumentName[i - 1], argumentName[i - 1], argumentName[i - 1]);
-		sprintf(argumentKlee[i-1], "    saveFile(%s, \"%s.input.txt\");\n", argumentName[i - 1], functionName);
+		sprintf(argumentKlee[i-1], "    saveFile(%s, \"%s-input/%s.%s.input.txt\");\n", argumentName[i - 1], functionName, argumentName[i - 1], functionName);
     	}
     }
 

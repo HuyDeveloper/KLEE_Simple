@@ -40,13 +40,14 @@ int main(int argc, char* argv[]) {
     strcat(callFunctionMain1, " ");
     strcat(callFunctionMain1,argv[2]);
 
-    char executeExe1[100] = "./ExecuteExe 1 ";
+    char executeExe1[100] = "./ExecuteExe ";
     strcat(executeExe1, argv[1]);
+    strcat(executeExe1, " 1");
 
-    char executeExeClone1[100] = "./ExecuteExe 2 ";
-    strcat(executeExeClone1, argv[3]);
-    strcat(executeExeClone1, " ");
+    char executeExeClone1[100] = "./ExecuteExe ";
     strcat(executeExeClone1, argv[1]);
+    strcat(executeExeClone1, " 2 ");
+    strcat(executeExeClone1, argv[3]);
 
     //file2
     char analyzeFunction2[100] = "./analyze_function ";
@@ -64,13 +65,14 @@ int main(int argc, char* argv[]) {
     strcat(callFunctionMain2, " ");
     strcat(callFunctionMain2,argv[4]);
 
-    char executeExe2[100] = "./ExecuteExe 1 ";
+    char executeExe2[100] = "./ExecuteExe ";
     strcat(executeExe2, argv[3]);
+    strcat(executeExe2, " 1");
 
-    char executeExeClone2[100] = "./ExecuteExe 2 ";
-    strcat(executeExeClone2, argv[1]);
-    strcat(executeExeClone2, " ");
+    char executeExeClone2[100] = "./ExecuteExe ";
     strcat(executeExeClone2, argv[3]);
+    strcat(executeExeClone2, " 2 ");
+    strcat(executeExeClone2, argv[1]);
 
     const char* commands[] = {
         "clang -o analyze_function analyze-function.c -lclang -I/usr/lib/llvm-14/include",
@@ -94,12 +96,12 @@ int main(int argc, char* argv[]) {
         "klee --external-calls=all generated_code.bc",
 
         callFunctionMain1,
-        "clang++ generated_code_main.c -o CodeTestExe",
+        "clang++ generated_code_main.c -o CodeTest",
         executeExe1,
 	executeExeClone1,
 
 	callFunctionMain2,
-        "clang++ generated_code_main.c -o CodeTestExe",
+        "clang++ generated_code_main.c -o CodeTest",
         executeExe2,
         executeExeClone2
     };

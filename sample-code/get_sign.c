@@ -1,4 +1,4 @@
-int get_sign(int x) {
+int get_sign2(int x) {
   if (x == 0)
     return 0;
 
@@ -8,7 +8,7 @@ int get_sign(int x) {
     return 1;
 }
 
-int get_sign2(int x) {
+int get_sign(int x) {
   if (x == 0)
     return 0;
 

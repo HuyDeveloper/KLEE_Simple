@@ -50,6 +50,18 @@ int findPointer(char mainString[]) {
     return 0;
 }
 
+int findReference(char mainString[]) {
+    char pointer[] = "&";
+
+    char *finding = strstr(mainString, pointer);
+
+    if(finding != NULL) {
+        return 1;
+    }
+
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
     
     char *fileInput = argv[1];
@@ -81,6 +93,7 @@ int main(int argc, char *argv[]) {
     char functionName[256];
     char cursorInfo[256];
     char returnType[256];
+    char flagReference[256][256];
     char argumentInfo[256];
     char argumentName[256][256];
     char argumentType[256][256];
@@ -100,11 +113,21 @@ int main(int argc, char *argv[]) {
     printf("Number of Arguments: %d\n", numArguments);
 
     // Đọc thông tin về các đối số
+   
     for (int i = 1; i <= numArguments; i++) {
+	int flag;
+	    
         // Đọc tên và kiểu của đối số
         fscanf(inputFile, "Argument %d Name=%255s Type: %255[^\n]\n", &i, argumentName[i - 1], argumentType[i - 1]);
         char type[10];   // Để lưu trữ kiểu dữ liệu
-    	char brackets[10]; // Để lưu trữ chuỗi chứa các dấu ngoặc vuông
+    	char brackets[10]; // Để lưu trữ chuỗi chứa các dấu ngoc vuông
+	
+	flag = findReference(argumentType[i-1]);
+
+	if(flag) {
+		sprintf(argumentType[i-1], "%s", strtok(argumentType[i-1], " "));
+	}
+
         if (sscanf(argumentType[i - 1], "%9[^[]%[^\n]%*c", type, brackets) == 2) {
 		fprintf(outputFile, "    %s %s%s;\n", type, argumentName[i - 1], chenChuoi(brackets, "100"));
 		if (strstr(argumentType[i-1], "char") == NULL) {
@@ -116,6 +139,9 @@ int main(int argc, char *argv[]) {
 			fprintf(outputFile, "    %s = argv[e];\n",argumentName[i - 1]);
 			fprintf(outputFile, "    e++;\n");
 		}
+		if (flag == 1) {
+			sprintf(flagReference[i-1], "    saveArrayFile(%s, argv[1]);\n", strtok(argumentType[i-1], " "));
+		}
     	} else if(findPointer(argumentType[i - 1]) == 1) {
 		fprintf(outputFile, "    %s %s;\n", argumentType[i-1], argumentName[i - 1]);
 		fprintf(outputFile, "    %s = (%s) malloc(100 * sizeof(%s));\n", argumentName[i-1],argumentType[i-1] , strtok(argumentType[i-1], " "));
@@ -124,8 +150,15 @@ int main(int argc, char *argv[]) {
                         fprintf(outputFile, "        %s[i] = (%s) atof(argv[e]);\n",argumentName[i - 1], argumentType[i-1]);
 			fprintf(outputFile, "        e++;\n");
                         fprintf(outputFile, "    }\n");
+
+			if (flag == 1) {
+                        	sprintf(flagReference[i-1], "    saveArrayFile(%s, argv[1]);\n", argumentName[i - 1]);
+                	}
 		} else {
                         fprintf(outputFile, "    %s = argv[e];\n",argumentName[i - 1]);
+			if (flag == 1) {
+                        	sprintf(flagReference[i-1], "    saveFile(%s, argv[1]);\n", argumentName[i - 1]);
+                	}
                 }
                 fprintf(outputFile, "    e++;\n");
 	} else {
@@ -135,15 +168,21 @@ int main(int argc, char *argv[]) {
 		} else {
         		fprintf(outputFile, "    %s = argv[e];\n",argumentName[i - 1]);
 		}
+
+		if (flag == 1) {
+                        sprintf(flagReference[i-1], "    saveFile(%s, argv[1]);\n", argumentName[i - 1]);
+                }
 		fprintf(outputFile, "    e++;\n");
     	}
-
     }
 
     char *voidPosition = strstr(returnType, "void");
 
+    printf("%s", flagReference[0]);
+
     if (voidPosition != NULL){
 	fprintf(outputFile, "    %s(", functionName);
+
     } else {
 	fprintf(outputFile, "    %s result;\n", returnType);
         fprintf(outputFile, "    result = %s(", functionName);
@@ -155,11 +194,19 @@ int main(int argc, char *argv[]) {
 
     fprintf(outputFile, "%s);\n", argumentName[numArguments - 1]);
     
-    if (findPointer(returnType) == 1){
-        fprintf(outputFile, "    saveArrayFile(result, argv[1]);\n", functionName);
-    } else {
-        fprintf(outputFile, "    saveFile(result, argv[1]);\n", functionName);
+    if (voidPosition == NULL) {
+    	if (findPointer(returnType) == 1){
+       		fprintf(outputFile, "    saveArrayFile(result, argv[1]);\n");
+    	} else {
+        	fprintf(outputFile, "    saveFile(result, argv[1]);\n");
+    	}
     }
+
+    for (int i = 1; i <= numArguments; i++) {
+	 fprintf(outputFile, "%s", flagReference[i-1]);
+    }
+
+
 
     fprintf(outputFile, "    return 0;\n");
     fprintf(outputFile, "}");

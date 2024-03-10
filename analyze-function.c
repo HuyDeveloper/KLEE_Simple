@@ -36,8 +36,9 @@ enum CXChildVisitResult visitFunctionDetails(CXCursor cursor, CXCursor parent, C
                 CXCursor argCursor = clang_Cursor_getArgument(cursor, i);
 		CXString argName = clang_getCursorSpelling(argCursor);
                 CXString argType = clang_getTypeSpelling(clang_getCursorType(argCursor));
+
                 fprintf(outputFile, "Argument %u Name=%s Type: %s\n", i + 1, clang_getCString(argName), clang_getCString(argType));
-                clang_disposeString(argType);
+		clang_disposeString(argType);
             }
 
             fprintf(outputFile, "\n");
@@ -92,4 +93,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-
