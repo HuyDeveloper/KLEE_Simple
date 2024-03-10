@@ -60,6 +60,7 @@ int main(int argc, char *argv[]) {
   if (count == -1) {
     printf("Error!\n");
   } else {
+    printf("Input cua function: %s", argv[1]);
     printf("So cap trung nhau: %d\n", count);
     printf("So cap trung/Tong so cap: %d / %d \n", count, size1 -1);
   }
