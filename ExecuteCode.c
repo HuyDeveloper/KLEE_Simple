@@ -196,7 +196,7 @@ int main(int argc, char *argv[]) {
 
     char executablePath[200];  // Increased size to accommodate longer paths
     // ./CodeTestExe
-    sprintf(executablePath, "./CodeTest %s-output/%s%s", argv[1], argv[1], extensions);
+    sprintf(executablePath, "./CodeTest output/%s%s", argv[1], argv[1], extensions);
 
     printf("Executable Path: %s\n", executablePath);
     FunctionInfo info = {NULL, NULL, NULL, NULL, NULL, NULL};

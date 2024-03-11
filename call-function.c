@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
     fprintf(outputFile, "#include<stdio.h>\n");
     fprintf(outputFile, "#include<stdlib.h>\n");
     fprintf(outputFile, "#include\"%s\"\n", fileImport);
-    fprintf(outputFile, "#include\"./SaveInput.cpp\"\n");
+    //fprintf(outputFile, "#include\"./SaveInput.cpp\"\n");
     fprintf(outputFile, "#include<klee/klee.h>\n\n\n");
 
     fprintf(outputFile, "int main() {\n");

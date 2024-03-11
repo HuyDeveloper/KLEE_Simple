@@ -4,7 +4,9 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-
+#include <sys/stat.h>
+#include <unistd.h>
+#include <limits.h>
 void executeCommand(const char* command) {
     system(command);
 }
@@ -19,11 +21,88 @@ void waitForCommandCompletion() {
     }
 }
 
+int directoryExists(const char* path) {
+    struct stat info;
+
+    // Sử dụng hàm stat để kiểm tra sự tồn tại của thư mục
+    return stat(path, &info) == 0 && S_ISDIR(info.st_mode);
+}
+
+void createDirectory(const char* path) {
+    // Sử dụng hàm _mkdir để tạo thư mục
+    if (mkdir(path, 0777) == 0) {
+        printf("Thư mục '%s' đã được tạo.\n", path);
+    } else {
+        printf("Không thể tạo thư mục '%s'.\n", path);
+    }
+}
+
+void removeDirectory(const char* path) {
+    if (rmdir(path) == 0) {
+        printf("Thư mục '%s' đã bị xóa.\n", path);
+    } else {
+        printf("Không thể xóa thư mục '%s'.\n", path);
+    }
+}
+
 int main(int argc, char* argv[]) {
     if (argc != 5) {
         printf("Usage: %s <argument function1 function2>\n", argv[0]);
         return 1;
     }
+
+    char currentPath[PATH_MAX];
+    if (getcwd(currentPath, sizeof(currentPath)) == NULL) {
+        fprintf(stderr, "Lỗi khi lấy đường dẫn.\n");
+        return 1;
+    }
+
+    char originalPath[PATH_MAX];
+    strcpy(originalPath, currentPath);
+
+
+    //Tạo ra thư mục input1
+    char folderPath[PATH_MAX];
+    sprintf(folderPath, "%s\\%s-input", currentPath, argv[1]);
+
+    if (directoryExists(folderPath)) {
+        // Thư mục tồn tại, xóa nó
+        removeDirectory(folderPath);
+    }
+
+    // Tạo thư mục mới
+    createDirectory(folderPath);
+
+    if (chdir(originalPath) != 0) {
+        perror("Lỗi khi chuyển về thư mục làm việc ban đầu");
+        return 1;
+    }
+
+    strcpy(folderPath, "");
+
+
+    //Tạo ra thư mục input2
+    sprintf(folderPath, "%s/%s-input", currentPath, argv[3]);
+
+    if (directoryExists(folderPath)) {
+        // Thư mục tồn tại, xóa nó
+        removeDirectory(folderPath);
+    }
+
+    // Tạo thư mục mới
+    createDirectory(folderPath);
+
+    //Tạo ra output1
+    sprintf(folderPath, "%s/output", currentPath);
+
+    if (directoryExists(folderPath)) {
+        // Thư mục tồn tại, xóa nó
+        removeDirectory(folderPath);
+    }
+
+    // Tạo thư mục mới
+    createDirectory(folderPath);
+
 
     char analyzeFunction1[100] = "./analyze_function ";
     strcat(analyzeFunction1,argv[2]);

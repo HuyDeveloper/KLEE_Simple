@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
 
     fprintf(outputFile, "#include <stdio.h>\n");
     fprintf(outputFile, "#include \"%s\"\n", fileImport);
-    fprintf(outputFile, "#include \"./SaveInput.cpp\"\n");
+    //fprintf(outputFile, "#include \"./SaveInput.cpp\"\n");
     fprintf(outputFile, "#include <stdlib.h>\n");
     fprintf(outputFile, "int main(int argc, char *argv[]) {\n");
     fprintf(outputFile, "    int e = 2;\n");
