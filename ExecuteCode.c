@@ -174,7 +174,7 @@ void executeFileWithInput(const char** filePath, const char* executablePath, int
 }
 
 int main(int argc, char *argv[]) {
-    if (argc != 4) {
+    if (argc > 4) {
         fprintf(stderr, "Usage: %s <name_function>\n", argv[0]);
         return EXIT_FAILURE;
     }
@@ -196,7 +196,7 @@ int main(int argc, char *argv[]) {
 
     char executablePath[200];  // Increased size to accommodate longer paths
     // ./CodeTestExe
-    sprintf(executablePath, "./CodeTest output/%s%s", argv[1], argv[1], extensions);
+    sprintf(executablePath, "./CodeTest output/%s%s", argv[1], extensions);
 
     printf("Executable Path: %s\n", executablePath);
     FunctionInfo info = {NULL, NULL, NULL, NULL, NULL, NULL};

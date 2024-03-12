@@ -14,11 +14,6 @@ void executeCommand(const char* command) {
 void waitForCommandCompletion() {
     int status;
     wait(&status);
-    if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
-        printf("Command executed successfully.\n");
-    } else {
-        printf("Error waiting for command execution.\n");
-    }
 }
 
 int directoryExists(const char* path) {
@@ -38,7 +33,10 @@ void createDirectory(const char* path) {
 }
 
 void removeDirectory(const char* path) {
-    if (rmdir(path) == 0) {
+    char command[PATH_MAX + 7]; // 7 là độ dài của chuỗi "rm -rf "
+    snprintf(command, sizeof(command), "rm -rf %s", path);
+	
+    if (system(command) == 0) {
         printf("Thư mục '%s' đã bị xóa.\n", path);
     } else {
         printf("Không thể xóa thư mục '%s'.\n", path);
@@ -63,7 +61,18 @@ int main(int argc, char* argv[]) {
 
     //Tạo ra thư mục input1
     char folderPath[PATH_MAX];
-    sprintf(folderPath, "%s\\%s-input", currentPath, argv[1]);
+    sprintf(folderPath, "%s/%s-input", currentPath, argv[1]);
+
+    if (directoryExists(folderPath)) {
+        // Thư mục tồn tại, xóa nó
+        removeDirectory(folderPath);
+    }
+
+    // Tạo thư mục mới
+    createDirectory(folderPath);
+
+    //Tạo ra thư mục input2
+    sprintf(folderPath, "%s/%s-input", currentPath, argv[3]);
 
     if (directoryExists(folderPath)) {
         // Thư mục tồn tại, xóa nó
@@ -80,19 +89,7 @@ int main(int argc, char* argv[]) {
 
     strcpy(folderPath, "");
 
-
-    //Tạo ra thư mục input2
-    sprintf(folderPath, "%s/%s-input", currentPath, argv[3]);
-
-    if (directoryExists(folderPath)) {
-        // Thư mục tồn tại, xóa nó
-        removeDirectory(folderPath);
-    }
-
-    // Tạo thư mục mới
-    createDirectory(folderPath);
-
-    //Tạo ra output1
+    //Tạo ra output
     sprintf(folderPath, "%s/output", currentPath);
 
     if (directoryExists(folderPath)) {
