@@ -41,10 +41,9 @@ int main(int argc, char *argv[]) {
     printf("Sai số lượng tham số!\n");
     return 1;
   }
-
   // Xác định tên file dựa trên tham số
   char *input = argv[1];
-  char file1[20], file2[20];
+  char file1[100], file2[100];
   sprintf(file1, "output/%s.output.clone.txt", argv[1]);
   sprintf(file2, "output/%s.output.txt", argv[1]);
 
