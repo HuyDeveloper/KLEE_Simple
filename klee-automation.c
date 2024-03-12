@@ -155,6 +155,24 @@ int main(int argc, char* argv[]) {
     strcat(executeCompare1, argv[1]);
     strcat(executeCompare2, argv[3]);
 
+    char clang1[256];
+    sprintf(clang1, "clang++ -emit-llvm -c %s_generated_code.c", argv[1]);
+
+    char clang2[256];
+    sprintf(clang2, "clang++ -emit-llvm -c %s_generated_code.c", argv[3]);
+
+    char klee1[256];
+    sprintf(klee1, "klee --external-calls=all %s_generated_code.bc", argv[1]);
+
+    char klee2[256];
+    sprintf(klee2, "klee --external-calls=all %s_generated_code.bc", argv[3]);
+
+    char clangMain1[256];
+    sprintf(clangMain1, "clang++ %s_generated_code_main.c -o CodeTest", argv[1]);
+
+    char clangMain2[256];
+    sprintf(clangMain2, "clang++ %s_generated_code_main.c -o CodeTest", argv[3]);
+
     const char* commands[] = {
         "clang -o analyze_function analyze-function.c -lclang -I/usr/lib/llvm-14/include",
         
@@ -165,24 +183,22 @@ int main(int argc, char* argv[]) {
 	"clang ExecuteCode.c -o ExecuteExe",
 
 	analyzeFunction1,
-
 	callFunction1,
-        "clang++ -emit-llvm -c generated_code.c",
-        "klee --external-calls=all generated_code.bc",
+        clang1,
+        klee1,
 
 	analyzeFunction2,
-
 	callFunction2,
-        "clang++ -emit-llvm -c generated_code.c",
-        "klee --external-calls=all generated_code.bc",
+        clang2,
+        klee2,
 
         callFunctionMain1,
-        "clang++ generated_code_main.c -o CodeTest",
+        clangMain1,
         executeExe1,
 	executeExeClone1,
 
 	callFunctionMain2,
-        "clang++ generated_code_main.c -o CodeTest",
+        clangMain2,
         executeExe2,
         executeExeClone2,
 

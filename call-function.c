@@ -74,7 +74,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    char fileName[] = "generated_code.c";
+    char fileName[256];
+    sprintf(fileName, "%s_generated_code.c", argv[1]);
 
     FILE *outputFile = fopen(fileName, "w");
 
@@ -108,11 +109,6 @@ int main(int argc, char *argv[]) {
 
     int numArguments;
     sscanf(argumentInfo, "%d", &numArguments); // Chuyển số lượng đối số từ chuỗi sang số nguyên
-
-    printf("%s\n", functionName);
-    printf("Cursor Info: %s\n", cursorInfo);
-    printf("Return Type: %s\n", returnType);
-    printf("Number of Arguments: %d\n", numArguments);
 
     // Đọc thông tin về các đối số
     for (int i = 1; i <= numArguments; i++) {
