@@ -45,8 +45,8 @@ int main(int argc, char *argv[]) {
   // Xác định tên file dựa trên tham số
   char *input = argv[1];
   char file1[20], file2[20];
-  sprintf(file1, "%s.output.clone.txt", argv[1]);
-  sprintf(file2, "%s.output.txt", argv[1]);
+  sprintf(file1, "output/%s.output.clone.txt", argv[1]);
+  sprintf(file2, "output/%s.output.txt", argv[1]);
 
   // Khai báo 2 mảng
   int arr1[100], arr2[100];
