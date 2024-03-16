@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
 
     fprintf(outputFile, "#include <stdio.h>\n");
     fprintf(outputFile, "#include \"%s\"\n", fileImport);
-    //fprintf(outputFile, "#include \"./SaveInput.cpp\"\n");
+    fprintf(outputFile, "#include \"./SaveInput.cpp\"\n");
     fprintf(outputFile, "#include <stdlib.h>\n");
     fprintf(outputFile, "int main(int argc, char *argv[]) {\n");
     fprintf(outputFile, "    int e = 2;\n");
@@ -140,21 +140,16 @@ int main(int argc, char *argv[]) {
 		}
     	} else if(findPointer(argumentType[i - 1]) == 1) {
 		fprintf(outputFile, "    %s %s;\n", argumentType[i-1], argumentName[i - 1]);
-		fprintf(outputFile, "    %s = (%s) malloc(100 * sizeof(%s));\n", argumentName[i-1],argumentType[i-1] , strtok(argumentType[i-1], " "));
+		fprintf(outputFile, "    %s = (%s*) malloc(100 * sizeof(%s));\n", argumentName[i-1],argumentType[i-1] , strtok(argumentType[i-1], " "));
 		if (strstr(argumentType[i-1], "char") == NULL) {
                         fprintf(outputFile, "    for(int i = 0; i < 100;i++){\n");
                         fprintf(outputFile, "        %s[i] = (%s) atof(argv[e]);\n",argumentName[i - 1], argumentType[i-1]);
 			fprintf(outputFile, "        e++;\n");
                         fprintf(outputFile, "    }\n");
-
-			if (flag == 1) {
-                        	sprintf(flagReference[i-1], "    saveArrayFile(%s, argv[1]);\n", argumentName[i - 1]);
-                	}
+                        sprintf(flagReference[i-1], "    saveArrayFile(%s, argv[1]);\n", argumentName[i - 1]);
 		} else {
                         fprintf(outputFile, "    %s = argv[e];\n",argumentName[i - 1]);
-			if (flag == 1) {
-                        	sprintf(flagReference[i-1], "    saveFile(%s, argv[1]);\n", argumentName[i - 1]);
-                	}
+                        sprintf(flagReference[i-1], "    saveFile(%s, argv[1]);\n", argumentName[i - 1]);
                 }
                 fprintf(outputFile, "    e++;\n");
 	} else {
@@ -190,7 +185,8 @@ int main(int argc, char *argv[]) {
 
     fprintf(outputFile, "%s);\n", argumentName[numArguments - 1]);
     
-    if (voidPosition == NULL) {
+    if (voidPosition != NULL) {
+    } else {
     	if (findPointer(returnType) == 1){
        		fprintf(outputFile, "    saveArrayFile(result, argv[1]);\n");
     	} else {

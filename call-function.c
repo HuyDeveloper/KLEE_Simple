@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
     fprintf(outputFile, "#include<stdio.h>\n");
     fprintf(outputFile, "#include<stdlib.h>\n");
     fprintf(outputFile, "#include\"%s\"\n", fileImport);
-    //fprintf(outputFile, "#include\"./SaveInput.cpp\"\n");
+    fprintf(outputFile, "#include\"./SaveInput.cpp\"\n");
     fprintf(outputFile, "#include<klee/klee.h>\n\n\n");
 
     fprintf(outputFile, "int main() {\n");
@@ -129,7 +129,7 @@ int main(int argc, char *argv[]) {
 		sprintf(argumentKlee[i-1], "    saveArrayFile(%s, \"%s-input/%s.%s.input.txt\");\n", argumentName[i - 1], functionName, argumentName[i - 1], functionName);
     	} else if(findPointer(argumentType[i - 1]) == 1) {
 		fprintf(outputFile, "    %s %s;\n", argumentType[i-1], argumentName[i - 1]);
-		fprintf(outputFile, "    %s = (%s) malloc(100 * sizeof(%s));\n", argumentName[i-1],argumentType[i-1] , strtok(argumentType[i-1], " "));
+		fprintf(outputFile, "    %s = (%s*) malloc(100 * sizeof(%s));\n", argumentName[i-1],argumentType[i-1] , strtok(argumentType[i-1], " "));
 		fprintf(outputFile, "    klee_make_symbolic(&%s, sizeof(%s) * 100, \"%s\");\n", argumentName[i - 1], strtok(argumentType[i-1], " "), argumentName[i - 1]);
 		sprintf(argumentKlee[i-1], "    saveArrayFile(%s, \"%s-input/%s.%s.input.txt\");\n", argumentName[i - 1], functionName, argumentName[i - 1], functionName);
 	} else {

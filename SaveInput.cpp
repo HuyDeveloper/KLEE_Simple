@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <ctime>
 using namespace std;
 
 template <class T>
@@ -24,4 +25,22 @@ void saveArrayFile(T data, char filename[]) {
     }
     file << "\n";
     file.close();
+}
+
+void logMessage(const std::string& message) {
+    ofstream logFile("log.txt", ios_base::app); // Mở tập tin log.txt với chế độ "append"
+
+    if (!logFile.is_open()) {
+        cout << "Không thể mở tập tin log." << endl;
+        return;
+    }
+
+    // Lấy thời gian hiện tại
+    time_t now = time(nullptr);
+    char* timeString = ctime(&now);
+
+    // Ghi thông điệp và thời gian vào tập tin log
+    logFile << "[" << timeString << "] " << message << endl;
+
+    logFile.close(); // Đóng tập tin
 }
